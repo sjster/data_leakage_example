@@ -12,9 +12,13 @@ def train_and_evaluate(fn, X_data_train, X_data_test, y_data_train, y_data_test)
     fn.fit(X_data_train, y_data_train)
     print(fn.score(X_data_test, y_data_test))
     y_data_predicted = fn.predict(X_data_test)
-    print('R2 score is ',r2_score(y_data_test, y_data_predicted))
-    print('Mean absolute error is ',mean_absolute_error(y_data_test, y_data_predicted))
-    print('Mean squared error is ',mean_squared_error(y_data_test, y_data_predicted))
+    r2_scr = r2_score(y_data_test, y_data_predicted)
+    mas = mean_absolute_error(y_data_test, y_data_predicted)
+    mse = mean_squared_error(y_data_test, y_data_predicted)
+    print('R2 score is ',r2_scr)
+    print('Mean absolute error is ',mas)
+    print('Mean squared error is ',mse)
+    return(r2_score, mas, mse)
 
 def get_diabetes_data():
     diabetes = load_diabetes()
@@ -58,6 +62,10 @@ def run_pipeline(X, y, preprocess_fn, tag):
             X, y = preprocess_fn(X,y)
 
     seed = [1,2,3,10,100,200,500,1000]
+    r2_score_array = []
+    mae_array = []
+    mse_array = []
+
     for elem in seed:
         X_data_train, X_data_test, y_data_train, y_data_test = train_test_split(X, y, test_size=0.3, random_state=elem)
         if(not PREPROCESS_BEFORE_SPLIT):
@@ -66,19 +74,24 @@ def run_pipeline(X, y, preprocess_fn, tag):
                 X_data_test, y_data_test = preprocess_fn(X_data_test, y_data_test)
 
         lr = LinearRegression()
-        train_and_evaluate(lr, X_data_train, X_data_test, y_data_train, y_data_test)
+        r2_score, mae, mse = train_and_evaluate(lr, X_data_train, X_data_test, y_data_train, y_data_test)
+        r2_score_array.append(r2_score)
+        mae_array.append(mae)
+        mse_array.append(mse)
+
+    return(r2_score_array, mae_array, mse_array)
 
 X, y = get_boston_data()
-run_pipeline(X, y, standardize_data, 'BOSTON')
-run_pipeline(X, y, normalize_data, 'BOSTON')
-run_pipeline(X, y, None, 'BOSTON')
+std_arrays_boston =  run_pipeline(X, y, standardize_data, 'BOSTON')
+norm_arrays_boston = run_pipeline(X, y, normalize_data, 'BOSTON')
+none_arrays_boston = run_pipeline(X, y, None, 'BOSTON')
 
 X, y = get_diabetes_data()
-run_pipeline(X, y, standardize_data, 'DIABETES')
-run_pipeline(X, y, normalize_data, 'DIABETES')
-run_pipeline(X, y, None, 'DIABETES')
+std_arrays_diabetes = run_pipeline(X, y, standardize_data, 'DIABETES')
+norm_arrays_diabetes = run_pipeline(X, y, normalize_data, 'DIABETES')
+none_arrays_diabetes = run_pipeline(X, y, None, 'DIABETES')
 
 X, y = get_california_data()
-run_pipeline(X, y, standardize_data, 'CALIFORNIA')
-run_pipeline(X, y, normalize_data, 'CALIFORNIA')
-run_pipeline(X, y, None, 'CALIFORNIA')
+std_arrays_california = run_pipeline(X, y, standardize_data, 'CALIFORNIA')
+norm_arrays_california =run_pipeline(X, y, normalize_data, 'CALIFORNIA')
+none_arrays_california = run_pipeline(X, y, None, 'CALIFORNIA')
