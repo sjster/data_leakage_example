@@ -46,14 +46,16 @@ def run_pipeline(X, y, preprocess_fn, tag):
     print(f'====== {tag} ==== Preprocess before split is {PREPROCESS_BEFORE_SPLIT} ============{preprocess_fn} =============')
 
     if(PREPROCESS_BEFORE_SPLIT):
-        X, y = preprocess_fn(X,y)
+        if(preprocess_fn):
+            X, y = preprocess_fn(X,y)
 
-    seed = [1,2,3]
+    seed = [1,2,3,10,100,200,500,1000]
     for elem in seed:
         X_data_train, X_data_test, y_data_train, y_data_test = train_test_split(X, y, test_size=0.3, random_state=elem)
         if(not PREPROCESS_BEFORE_SPLIT):
-            X_data_train, y_data_train = preprocess_fn(X_data_train, y_data_train)
-            X_data_test, y_data_test = preprocess_fn(X_data_test, y_data_test)
+            if(preprocess_fn):
+                X_data_train, y_data_train = preprocess_fn(X_data_train, y_data_train)
+                X_data_test, y_data_test = preprocess_fn(X_data_test, y_data_test)
 
         lr = LinearRegression()
         train_and_evaluate(lr, X_data_train, X_data_test, y_data_train, y_data_test)
@@ -61,7 +63,9 @@ def run_pipeline(X, y, preprocess_fn, tag):
 X, y = get_boston_data()
 run_pipeline(X, y, standardize_data, 'BOSTON')
 run_pipeline(X, y, normalize_data, 'BOSTON')
+run_pipeline(X, y, None, 'BOSTON')
 
 X, y = get_diabetes_data()
 run_pipeline(X, y, standardize_data, 'DIABETES')
 run_pipeline(X, y, normalize_data, 'DIABETES')
+run_pipeline(X, y, None, 'DIABETES')
