@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.datasets import load_diabetes, load_iris, load_boston
+from sklearn.datasets import load_diabetes, load_iris, load_boston, fetch_california_housing
 
 PREPROCESS_BEFORE_SPLIT = False
 
@@ -28,6 +28,14 @@ def get_boston_data():
     iris = load_boston()
     df = pd.DataFrame(iris.data, columns=iris.feature_names)
     df['MEDV'] = iris.target
+    X = df.loc[:, df.columns != 'MEDV']
+    y = df.loc[:, df.columns == 'MEDV']
+    return(X,y)
+
+def get_california_data():
+    california = fetch_california_housing()
+    df = pd.DataFrame(california.data, columns=california.feature_names)
+    df['MEDV'] = california.target
     X = df.loc[:, df.columns != 'MEDV']
     y = df.loc[:, df.columns == 'MEDV']
     return(X,y)
@@ -69,3 +77,8 @@ X, y = get_diabetes_data()
 run_pipeline(X, y, standardize_data, 'DIABETES')
 run_pipeline(X, y, normalize_data, 'DIABETES')
 run_pipeline(X, y, None, 'DIABETES')
+
+X, y = get_california_data()
+run_pipeline(X, y, standardize_data, 'CALIFORNIA')
+run_pipeline(X, y, normalize_data, 'CALIFORNIA')
+run_pipeline(X, y, None, 'CALIFORNIA')
