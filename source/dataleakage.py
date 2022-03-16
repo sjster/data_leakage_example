@@ -8,7 +8,11 @@ from sklearn.datasets import load_diabetes, load_iris, load_boston, fetch_califo
 
 PREPROCESS_BEFORE_SPLIT = True
 
+
 def train_and_evaluate(fn, X_data_train, X_data_test, y_data_train, y_data_test):
+    """Train and evaluate the model given by fn and using
+    the training and test data $\\frac{x}{y}$"""
+
     fn.fit(X_data_train, y_data_train)
     print(fn.score(X_data_test, y_data_test))
     y_data_predicted = fn.predict(X_data_test)
