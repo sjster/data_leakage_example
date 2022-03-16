@@ -112,6 +112,6 @@ df_california = pd.DataFrame({'std_california_r2': std_arrays_california[0],
         'norm_california_r2': norm_arrays_california[0], 'norm_california_mae': norm_arrays_california[1], 'norm_california_mse': norm_arrays_california[2],
         'none_california_r2': none_arrays_california[0], 'none_california_mae': none_arrays_california[1], 'none_california_mse': none_arrays_california[2]})
 
-df_boston.to_csv(f'df_boston_{PREPROCESS_BEFORE_SPLIT}.csv')
-df_diabetes.to_csv(f'df_diabetes_{PREPROCESS_BEFORE_SPLIT}.csv')
-df_california.to_csv(f'df_california_{PREPROCESS_BEFORE_SPLIT}.csv')
+df_boston.to_csv(f'./data/df_boston_{PREPROCESS_BEFORE_SPLIT}.csv')
+df_diabetes.to_csv(f'./data/df_diabetes_{PREPROCESS_BEFORE_SPLIT}.csv')
+df_california.to_csv(f'./data/df_california_{PREPROCESS_BEFORE_SPLIT}.csv')

@@ -14,14 +14,14 @@ class PlotGraphs():
         >>>print("foo")
         foo
         """
-        df_true = pd.read_csv(f'df_{dataset_name}_true.csv').filter(regex=pattern)
-        df_false = pd.read_csv(f'df_{dataset_name}_false.csv').filter(regex=pattern)
+        df_true = pd.read_csv(f'./data/df_{dataset_name}_true.csv').filter(regex=pattern)
+        df_false = pd.read_csv(f'./data/df_{dataset_name}_false.csv').filter(regex=pattern)
         fig = px.box(df_true)
         fig2 = px.box(df_false)
         fig.add_trace(fig2['data'][0])
         fig['data'][1].line.color = self.color2
         fig.update_layout(showlegend=True, title='PREPROCESS_BEFORE_SPLIT (Purple) vs. PREPROCESS_AFTER_SPLIT (Teal)')
-        plotly.offline.plot(fig, filename=f'{dataset_name}.html')
+        plotly.offline.plot(fig, filename=f'./output/{dataset_name}.html')
 
 plot_obj = PlotGraphs()
 plot_obj.plot_box('boston')
