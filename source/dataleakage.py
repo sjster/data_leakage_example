@@ -33,9 +33,9 @@ def get_diabetes_data():
     return(X,y)
 
 def get_boston_data():
-    iris = load_boston()
-    df = pd.DataFrame(iris.data, columns=iris.feature_names)
-    df['MEDV'] = iris.target
+    boston = load_boston()
+    df = pd.DataFrame(boston.data, columns=boston.feature_names)
+    df['MEDV'] = boston.target
     X = df.loc[:, df.columns != 'MEDV']
     y = df.loc[:, df.columns == 'MEDV']
     return(X,y)
