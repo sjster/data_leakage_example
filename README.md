@@ -28,3 +28,23 @@ Run the following one level above
 ```
 pdoc source 
 ```
+
+### Testing 
+
+Run the the following pytest command one level above
+
+```
+pytest -v tests/unittests.py
+```
+
+For code coverage information use the package pytest-cov which can be invoked from pytest as
+
+```
+pytest --cov=dataleakage tests/unittests.py
+```
+
+For code coverage results in HTML format, including the lines of code that are not covered use the following
+
+```
+pytest --cov=dataleakage --cov-report=html tests/unittests.py
+```
