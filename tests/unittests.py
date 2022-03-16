@@ -60,3 +60,24 @@ def test_normalize_diabetes(get_diabetes):
     X, y = get_diabetes[0], get_diabetes[1]
     X_std, y_std = normalize_data(X, y)
     assert(np.allclose(X_std.min(), 0.0) and np.allclose(X_std.max(), 1.0))
+
+def test_run_pipeline_std(get_diabetes):
+    X, y = get_diabetes[0], get_diabetes[1]
+    r2, mae, mse = run_pipeline(X, y, standardize_data, 'DIABETES')
+    assert(all(elem > 0 for elem in r2))
+    assert(all(elem > 0 for elem in mae))
+    assert(all(elem > 0 for elem in mse))
+
+def test_run_pipeline_norm(get_diabetes):
+    X, y = get_diabetes[0], get_diabetes[1]
+    r2, mae, mse = run_pipeline(X, y, normalize_data, 'DIABETES')
+    assert(all(elem > 0 for elem in r2))
+    assert(all(elem > 0 for elem in mae))
+    assert(all(elem > 0 for elem in mse))
+
+def test_run_pipeline_none(get_diabetes):
+    X, y = get_diabetes[0], get_diabetes[1]
+    r2, mae, mse = run_pipeline(X, y, None, 'DIABETES')
+    assert(all(elem > 0 for elem in r2))
+    assert(all(elem > 0 for elem in mae))
+    assert(all(elem > 0 for elem in mse))
